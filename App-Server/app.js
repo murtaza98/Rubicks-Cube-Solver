@@ -23,13 +23,22 @@ app.use((req, res, next) => {
   });
 
 // to parser post request data
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
-app.post('/api/solve', (req, res, next) => {
-    // console.log(req.body.scramleSequence);    
+/* Define function for escaping user input to be treated as 
+  a literal string within a regular expression */
+escapeRegExp = function (string){
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+/* Define functin to find and replace specified term with replacement string */
+replaceAll = function (str, term, replacement) {
+  return str.replace(new RegExp(escapeRegExp(term), 'g'), replacement);
+}
 
-    const scramleSequence = req.body.scramleSequence;
-
+  app.get('/api/solve/:move', (req, res, next) => {
+    console.log(req.params);  
+    const scramleSequence = replaceAll(req.params.move, "_", " ");
+    console.log(scramleSequence);
     // Create a new solved cube instance
     const cube = new Cube();
     // Apply an algorithm or randomize the cube state

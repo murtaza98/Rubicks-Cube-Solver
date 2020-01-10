@@ -1,5 +1,6 @@
 import peasy.*;
 import java.util.Map;
+import http.requests.*;
 
 PeasyCam cam;
 
@@ -77,6 +78,11 @@ void setup() {
   }
 
   currentMove.start();
+  
+  GetRequest get = new GetRequest("http://localhost:3000/api/solve/U_F_R2_B'_D2_L'");
+  get.send();
+  println("Reponse Content: " + get.getContent());
+  //println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
 }
 
 void draw() {
@@ -91,7 +97,7 @@ void draw() {
   rotateX(-0.5);
   rotateY(0.4);
   rotateZ(0.1);
-
+  
 
 
   currentMove.update();
