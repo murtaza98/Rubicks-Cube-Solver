@@ -1,6 +1,7 @@
 import peasy.*;
 import java.util.Map;
 import http.requests.*;
+import java.util.Random;
 
 PeasyCam cam;
 
@@ -11,14 +12,12 @@ Cubie[] cube = new Cubie[dim*dim*dim];
 //map character notation of moves to internal representation
 HashMap<String, Move> movesMap = new HashMap<String, Move>();
 
-
-Move[] allMoves = new Move[] {
-  new Move(-1, 0, 0, -1)
-};
+int scramble_moves_length = 20;
 
 ArrayList<Move> sequence = new ArrayList<Move>();
 int counter = 0;
 
+String[] allMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'"};
 String moves = "R L";
 
 boolean started = false;
@@ -111,7 +110,20 @@ void createCube(){
 }
 
 void scramble(){
-  for(String move : moves.split("\\s+")){
+  
+  moves = "";
+  counter = 0;
+  Random random = new Random();
+  for(int i=0;i<scramble_moves_length;i++){
+      moves += allMoves[random.nextInt(allMoves.length)] + "_";
+  }
+  // to remove last underscore
+  moves = moves.substring(0, moves.length()-1);
+  
+  println(moves);
+  
+  sequence = new ArrayList<Move>();
+  for(String move : moves.split("_")){
     if(movesMap.containsKey(move)){
       // any move without no, eg F U F' U' .....
       Move cmove = movesMap.get(move);
@@ -123,7 +135,7 @@ void scramble(){
       sequence.add(cmove);
     }
   }
-
+  
   currentMove = sequence.get(counter);
 
   for (int i = sequence.size()-1; i >= 0; i--) {
@@ -218,6 +230,7 @@ void mousePressed() {
   if (rectOver) {
     currentColor = rectColor;
     println("Scramble Pressed");
+    scramble();
   }else if(SrectOver){
     ScurrentColor = SrectColor;
     println("Solve Pressed");
