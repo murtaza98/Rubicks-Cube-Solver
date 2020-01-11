@@ -64,40 +64,8 @@ void setup() {
   
   //fullScreen(P3D);
   cam = new PeasyCam(this, 400);
-  int index = 0;
-  for (int x = -1; x <= 1; x++) {
-    for (int y = -1; y <= 1; y++) {
-      for (int z = -1; z <= 1; z++) {
-        PMatrix3D matrix = new PMatrix3D();
-        matrix.translate(x, y, z);
-        cube[index] = new Cubie(matrix, x, y, z);
-        index++;
-      }
-    }
-  }
   
-  for(String move : moves.split("\\s+")){
-    if(movesMap.containsKey(move)){
-      // any move without no, eg F U F' U' .....
-      Move cmove = movesMap.get(move);
-      sequence.add(cmove);
-    }else{
-      // any move with no, eg F2 U2 ......
-      Move cmove = movesMap.get(move.charAt(0)+"");
-      sequence.add(cmove);
-      sequence.add(cmove);
-    }
-  }
-
-  currentMove = sequence.get(counter);
-
-  for (int i = sequence.size()-1; i >= 0; i--) {
-    Move nextMove = sequence.get(i).copy();
-    nextMove.reverse();
-    sequence.add(nextMove);
-  }
-
-  currentMove.start();
+  createCube();
  
   
   GetRequest get = new GetRequest("http://localhost:3000/api/solve/U_F_R2_B'_D2_L'");
@@ -128,11 +96,59 @@ void draw() {
   cam.endHUD();
 }
 
+void createCube(){
+  int index = 0;
+  for (int x = -1; x <= 1; x++) {
+    for (int y = -1; y <= 1; y++) {
+      for (int z = -1; z <= 1; z++) {
+        PMatrix3D matrix = new PMatrix3D();
+        matrix.translate(x, y, z);
+        cube[index] = new Cubie(matrix, x, y, z);
+        index++;
+      }
+    }
+  }
+}
+
+void scramble(){
+  for(String move : moves.split("\\s+")){
+    if(movesMap.containsKey(move)){
+      // any move without no, eg F U F' U' .....
+      Move cmove = movesMap.get(move);
+      sequence.add(cmove);
+    }else{
+      // any move with no, eg F2 U2 ......
+      Move cmove = movesMap.get(move.charAt(0)+"");
+      sequence.add(cmove);
+      sequence.add(cmove);
+    }
+  }
+
+  currentMove = sequence.get(counter);
+
+  for (int i = sequence.size()-1; i >= 0; i--) {
+    Move nextMove = sequence.get(i).copy();
+    nextMove.reverse();
+    sequence.add(nextMove);
+  }
+
+  currentMove.start();
+}
+
 void updateFrame(){
   rotateX(-0.5);
   rotateY(0.4);
   rotateZ(0.1);
   
+  if(currentMove==null){
+    scale(50);
+    push();
+    for (int i = 0; i < cube.length; i++) {   
+      cube[i].show();
+    }
+    pop();
+    return;
+  }
 
 
   currentMove.update();
