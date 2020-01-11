@@ -25,14 +25,25 @@ boolean started = false;
 
 Move currentMove;
 
-int rectX, rectY;      // Position of square button
-int circleX, circleY;  // Position of circle button
+// Scramble Button
+int rectX = 400;  // Position of square button
+int rectY=500;
 int rectWidth = 180;
 int rectHeight = 70;
-color rectColor, baseColor;
-color rectHighlight;
+color rectColor = color(255);
+color rectHighlight = color(0, 102, 153);
 color currentColor;
 boolean rectOver = false;
+
+// Solve Button
+int SrectX = 50;  // Position of square button
+int SrectY=500;
+int SrectWidth = 120;
+int SrectHeight = 70;
+color SrectColor = color(255);
+color SrectHighlight = color(0, 102, 153);
+color ScurrentColor;
+boolean SrectOver = false;
 
 void setup() {
   size(600, 600, P3D);
@@ -99,14 +110,6 @@ void setup() {
     String species = resp_json.getString("sequence");
     println(species);
   }
-  
-  
-  rectColor = color(255);
-  rectHighlight = color(0, 102, 153);
-  baseColor = color(102);
-  currentColor = baseColor;
-  rectX = 400;
-  rectY = 500;
 }
 
 void draw() {
@@ -163,7 +166,7 @@ void updateButton(){
   
   if (rectOver) {
     fill(rectHighlight);
-  } else {
+  }else{
     fill(rectColor);
   }
   stroke(255);
@@ -171,12 +174,26 @@ void updateButton(){
   fill(0);
   textSize(32);
   text("SCRAMBLE", rectX+10, rectY+47);
+  
+  if (SrectOver) {
+    fill(SrectHighlight);
+  }else{
+    fill(SrectColor);
+  }
+  stroke(255);
+  rect(SrectX, SrectY, SrectWidth, SrectHeight);
+  fill(0);
+  textSize(32);
+  text("SOLVE", SrectX+10, SrectY+47);
 }
 
 void update(int x, int y) {
   if ( overRect(rectX, rectY, rectWidth, rectHeight) ) {
     rectOver = true;
+  }else if(overRect(SrectX, SrectY, SrectWidth, SrectHeight)){
+    SrectOver = true;
   } else {
+    SrectOver = false;
     rectOver = false;
   }
 }
@@ -184,8 +201,12 @@ void update(int x, int y) {
 void mousePressed() {
   if (rectOver) {
     currentColor = rectColor;
-    println("Pressed");
+    println("Scramble Pressed");
+  }else if(SrectOver){
+    ScurrentColor = SrectColor;
+    println("Solve Pressed");
   }
+  
 }
 
 boolean overRect(int x, int y, int width, int height)  {
