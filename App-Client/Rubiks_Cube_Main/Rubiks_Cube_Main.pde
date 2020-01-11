@@ -25,6 +25,15 @@ boolean started = false;
 
 Move currentMove;
 
+int rectX, rectY;      // Position of square button
+int circleX, circleY;  // Position of circle button
+int rectWidth = 180;
+int rectHeight = 70;
+color rectColor, baseColor;
+color rectHighlight;
+color currentColor;
+boolean rectOver = false;
+
 void setup() {
   size(600, 600, P3D);
   
@@ -78,11 +87,26 @@ void setup() {
   }
 
   currentMove.start();
+ 
   
   GetRequest get = new GetRequest("http://localhost:3000/api/solve/U_F_R2_B'_D2_L'");
   get.send();
-  println("Reponse Content: " + get.getContent());
-  //println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
+  //println("Reponse Content: " + get.getContent());
+  JSONObject resp_json = parseJSONObject(get.getContent());
+  if (resp_json == null) {
+    println("JSONObject could not be parsed");
+  } else {
+    String species = resp_json.getString("sequence");
+    println(species);
+  }
+  
+  
+  rectColor = color(255);
+  rectHighlight = color(0, 102, 153);
+  baseColor = color(102);
+  currentColor = baseColor;
+  rectX = 400;
+  rectY = 500;
 }
 
 void draw() {
@@ -93,7 +117,15 @@ void draw() {
   textSize(32);
   text(counter, 100, 100);
   cam.endHUD();
+  
+  updateFrame();
+  
+  cam.beginHUD();
+  updateButton();
+  cam.endHUD();
+}
 
+void updateFrame(){
   rotateX(-0.5);
   rotateY(0.4);
   rotateZ(0.1);
@@ -122,5 +154,45 @@ void draw() {
     }   
     cube[i].show();
     pop();
+  }
+}
+
+void updateButton(){
+  update(mouseX, mouseY);
+  //background(currentColor);
+  
+  if (rectOver) {
+    fill(rectHighlight);
+  } else {
+    fill(rectColor);
+  }
+  stroke(255);
+  rect(rectX, rectY, rectWidth, rectHeight);
+  fill(0);
+  textSize(32);
+  text("SCRAMBLE", rectX+10, rectY+47);
+}
+
+void update(int x, int y) {
+  if ( overRect(rectX, rectY, rectWidth, rectHeight) ) {
+    rectOver = true;
+  } else {
+    rectOver = false;
+  }
+}
+
+void mousePressed() {
+  if (rectOver) {
+    currentColor = rectColor;
+    println("Pressed");
+  }
+}
+
+boolean overRect(int x, int y, int width, int height)  {
+  if (mouseX >= x && mouseX <= x+width && 
+      mouseY >= y && mouseY <= y+height) {
+    return true;
+  } else {
+    return false;
   }
 }
