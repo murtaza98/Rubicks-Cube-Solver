@@ -43,6 +43,7 @@ void mousePressed() {
     scramble();
   }else if(SrectOver){
     ScurrentColor = SrectColor;
+    solve();
     println("Solve Pressed");
   }
   
@@ -61,7 +62,7 @@ boolean overRect(int x, int y, int width, int height)  {
 
 void keyPressed() {
   if (key == ' ') {
-    currentMove.start();
+    scrambleCurrMove.start();
     counter = 0;
   }
   // applyMove(key);

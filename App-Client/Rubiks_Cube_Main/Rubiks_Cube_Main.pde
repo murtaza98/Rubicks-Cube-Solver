@@ -5,24 +5,30 @@ import java.util.Random;
 
 PeasyCam cam;
 
-float speed = 0.05;
+final float SCRAMBLE_SPEED = 0.5;
+final float SOLVE_SPEED = 0.10;
+
+float speed = SCRAMBLE_SPEED;
+
 int dim = 3;
 Cubie[] cube = new Cubie[dim*dim*dim];
 
 //map character notation of moves to internal representation
 HashMap<String, Move> movesMap = new HashMap<String, Move>();
 
-int scramble_moves_length = 20;
+int scramble_moves_length = 50;
 
-ArrayList<Move> sequence = new ArrayList<Move>();
+ArrayList<Move> sequence = null;
+ArrayList<Move> solveSequence = null;
 int counter = 0;
 
 String[] allMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'"};
-String moves = "R L";
+String moves = "";
 
 boolean started = false;
 
-Move currentMove;
+Move scrambleCurrMove;
+Move solveCurrMove;
 
 // Scramble Button
 int rectX = 400;  // Position of square button
@@ -65,18 +71,6 @@ void setup() {
   cam = new PeasyCam(this, 400);
   
   createCube();
- 
-  
-  GetRequest get = new GetRequest("http://localhost:3000/api/solve/U_F_R2_B'_D2_L'");
-  get.send();
-  //println("Reponse Content: " + get.getContent());
-  JSONObject resp_json = parseJSONObject(get.getContent());
-  if (resp_json == null) {
-    println("JSONObject could not be parsed");
-  } else {
-    String species = resp_json.getString("sequence");
-    println(species);
-  }
 }
 
 void draw() {
@@ -136,23 +130,56 @@ void scramble(){
     }
   }
   
-  currentMove = sequence.get(counter);
+  scrambleCurrMove = sequence.get(counter);
 
-  for (int i = sequence.size()-1; i >= 0; i--) {
-    Move nextMove = sequence.get(i).copy();
-    nextMove.reverse();
-    sequence.add(nextMove);
+  speed = SCRAMBLE_SPEED;
+  scrambleCurrMove.start();
+}
+
+void solve(){
+  if(moves==null || moves==""){
+    return;
   }
-
-  currentMove.start();
+  
+  GetRequest get = new GetRequest("http://localhost:3000/api/solve/"+moves);
+  get.send();
+  //println("Reponse Content: " + get.getContent());
+  JSONObject resp_json = parseJSONObject(get.getContent());
+  if (resp_json == null) {
+    println("JSONObject could not be parsed");
+  } else {
+    String solveMoves = resp_json.getString("sequence");
+    println(solveMoves);
+    
+    solveSequence = new ArrayList<Move>();
+    for(String move : solveMoves.split(" ")){
+      if(movesMap.containsKey(move)){
+        // any move without no, eg F U F' U' .....
+        Move cmove = movesMap.get(move);
+        solveSequence.add(cmove);
+      }else{
+        // any move with no, eg F2 U2 ......
+        Move cmove = movesMap.get(move.charAt(0)+"");
+        solveSequence.add(cmove);
+        solveSequence.add(cmove);
+      }
+    }
+    
+    println(solveSequence.size());
+    
+    counter = 0;
+    speed = SOLVE_SPEED;
+    solveCurrMove = solveSequence.get(counter);
+    solveCurrMove.start();
+  }
 }
 
 void updateFrame(){
-  rotateX(-0.5);
+  rotateX(-SCRAMBLE_SPEED);
   rotateY(0.4);
   rotateZ(0.1);
   
-  if(currentMove==null){
+  if(scrambleCurrMove==null && solveCurrMove==null){
     scale(50);
     push();
     for (int i = 0; i < cube.length; i++) {   
@@ -161,27 +188,52 @@ void updateFrame(){
     pop();
     return;
   }
-
-
-  currentMove.update();
-  if (currentMove.finished()) {
-    if (counter < sequence.size()-1) {
-      counter++;
-      currentMove = sequence.get(counter);
-      currentMove.start();
+  
+  Move currMove = null;
+  boolean isSolve = false;
+  if(solveCurrMove != null){
+    currMove = solveCurrMove;
+    isSolve = true;
+  }else{
+    currMove = scrambleCurrMove;
+    isSolve = false;
+  }
+  
+  currMove.update();
+  if (currMove.finished()) {
+    if(isSolve){
+      if (counter < solveSequence.size()-1) {
+        counter++;
+        solveCurrMove = solveSequence.get(counter);
+        solveCurrMove.start();
+      }else{
+        solveCurrMove = null;
+        currMove = null;
+      }
+    }else{
+      if (counter < sequence.size()-1) {
+        counter++;
+        scrambleCurrMove = sequence.get(counter);
+        scrambleCurrMove.start();
+      }else{
+        scrambleCurrMove = null;
+        currMove = null;
+      }  
     }
   }
 
-
+  if(currMove==null){
+    return;
+  }
   scale(50);
   for (int i = 0; i < cube.length; i++) {
     push();
-    if (abs(cube[i].z) > 0 && cube[i].z == currentMove.z) {
-      rotateZ(currentMove.angle);
-    } else if (abs(cube[i].x) > 0 && cube[i].x == currentMove.x) {
-      rotateX(currentMove.angle);
-    } else if (abs(cube[i].y) > 0 && cube[i].y ==currentMove.y) {
-      rotateY(-currentMove.angle);
+    if (abs(cube[i].z) > 0 && cube[i].z == currMove.z) {
+      rotateZ(currMove.angle);
+    } else if (abs(cube[i].x) > 0 && cube[i].x == currMove.x) {
+      rotateX(currMove.angle);
+    } else if (abs(cube[i].y) > 0 && cube[i].y ==currMove.y) {
+      rotateY(-currMove.angle);
     }   
     cube[i].show();
     pop();
