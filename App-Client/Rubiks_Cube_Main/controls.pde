@@ -1,3 +1,64 @@
+void updateButton(){
+  update(mouseX, mouseY);
+  //background(currentColor);
+  
+  if (rectOver) {
+    fill(rectHighlight);
+  }else{
+    fill(rectColor);
+  }
+  stroke(255);
+  rect(rectX, rectY, rectWidth, rectHeight);
+  fill(0);
+  textSize(32);
+  text("SCRAMBLE", rectX+10, rectY+47);
+  
+  if (SrectOver) {
+    fill(SrectHighlight);
+  }else{
+    fill(SrectColor);
+  }
+  stroke(255);
+  rect(SrectX, SrectY, SrectWidth, SrectHeight);
+  fill(0);
+  textSize(32);
+  text("SOLVE", SrectX+10, SrectY+47);
+}
+
+void update(int x, int y) {
+  if ( overRect(rectX, rectY, rectWidth, rectHeight) ) {
+    rectOver = true;
+  }else if(overRect(SrectX, SrectY, SrectWidth, SrectHeight)){
+    SrectOver = true;
+  } else {
+    SrectOver = false;
+    rectOver = false;
+  }
+}
+
+void mousePressed() {
+  if (rectOver) {
+    currentColor = rectColor;
+    println("Scramble Pressed");
+    scramble();
+  }else if(SrectOver){
+    ScurrentColor = SrectColor;
+    println("Solve Pressed");
+  }
+  
+}
+
+boolean overRect(int x, int y, int width, int height)  {
+  if (mouseX >= x && mouseX <= x+width && 
+      mouseY >= y && mouseY <= y+height) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+
 void keyPressed() {
   if (key == ' ') {
     currentMove.start();
