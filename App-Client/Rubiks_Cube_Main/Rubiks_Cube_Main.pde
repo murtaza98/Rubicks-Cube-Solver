@@ -2,6 +2,7 @@ import peasy.*;
 import java.util.Map;
 import http.requests.*;
 import java.util.Random;
+import javax.swing.*; 
 
 PeasyCam cam;
 
@@ -50,6 +51,11 @@ color SrectHighlight = color(0, 102, 153);
 color ScurrentColor;
 boolean SrectOver = false;
 
+// custom scramble sequence input
+String scrambleInput;
+boolean txtFieldInitialized = false;
+int op1,op2;
+
 void setup() {
   size(600, 600, P3D);
   
@@ -67,10 +73,19 @@ void setup() {
   movesMap.put("L", new Move(-1, 0, 0, -1));
   movesMap.put("L'", new Move(-1, 0, 0, 1));
   
+  try { 
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  } 
+  catch (Exception e) { 
+    e.printStackTrace();
+  }
+  
   //fullScreen(P3D);
   cam = new PeasyCam(this, 400);
   
   createCube();
+  
+  
 }
 
 void draw() {
@@ -85,8 +100,25 @@ void draw() {
   updateFrame();
   
   cam.beginHUD();
-  updateButton();
+  // button
+  updateButton();  
   cam.endHUD();
+  
+  if(!txtFieldInitialized){
+    txtFieldInitialized = true;
+    try { 
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } 
+    catch (Exception e) { 
+      e.printStackTrace();
+    } 
+    String preset="2";
+    String op1s = JOptionPane.showInputDialog(frame, "Something", preset);
+    if(op1s != null){
+      op1=Integer.parseInt(op1s);
+    }
+    println(op1);
+  }
 }
 
 void createCube(){
