@@ -23,6 +23,17 @@ void updateButton(){
   fill(0);
   textSize(32);
   text("SOLVE", SrectX+10, SrectY+47);
+  
+  if (IrectOver) {
+    fill(IrectHighlight);
+  }else{
+    fill(IrectColor);
+  }
+  stroke(255);
+  rect(IrectX, IrectY, IrectWidth, IrectHeight);
+  fill(0);
+  textSize(32);
+  text("INPUT", IrectX+10, IrectY+47);
 }
 
 void update(int x, int y) {
@@ -30,9 +41,12 @@ void update(int x, int y) {
     rectOver = true;
   }else if(overRect(SrectX, SrectY, SrectWidth, SrectHeight)){
     SrectOver = true;
+  } else if(overRect(IrectX, IrectY, IrectWidth, IrectHeight)){
+    IrectOver = true;
   } else {
     SrectOver = false;
     rectOver = false;
+    IrectOver = false;
   }
 }
 
@@ -45,6 +59,10 @@ void mousePressed() {
     ScurrentColor = SrectColor;
     solve();
     println("Solve Pressed");
+  }else if(IrectOver){
+    IcurrentColor = IrectColor;
+    question();
+    println("Input Pressed");
   }
   
 }

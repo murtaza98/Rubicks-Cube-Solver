@@ -52,9 +52,18 @@ color ScurrentColor;
 boolean SrectOver = false;
 
 // custom scramble sequence input
+int IrectX = 200;  // Position of square button
+int IrectY=500;
+int IrectWidth = 120;
+int IrectHeight = 70;
+color IrectColor = color(255);
+color IrectHighlight = color(0, 102, 153);
+color IcurrentColor;
+boolean IrectOver = false;
+
 String scrambleInput;
 boolean txtFieldInitialized = false;
-int op1,op2;
+JFrame frmOpt;  //dummy JFrame
 
 void setup() {
   size(600, 600, P3D);
@@ -73,19 +82,10 @@ void setup() {
   movesMap.put("L", new Move(-1, 0, 0, -1));
   movesMap.put("L'", new Move(-1, 0, 0, 1));
   
-  try { 
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-  } 
-  catch (Exception e) { 
-    e.printStackTrace();
-  }
-  
   //fullScreen(P3D);
   cam = new PeasyCam(this, 400);
   
   createCube();
-  
-  
 }
 
 void draw() {
@@ -106,19 +106,25 @@ void draw() {
   
   if(!txtFieldInitialized){
     txtFieldInitialized = true;
-    try { 
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } 
-    catch (Exception e) { 
-      e.printStackTrace();
-    } 
-    String preset="2";
-    String op1s = JOptionPane.showInputDialog(frame, "Something", preset);
-    if(op1s != null){
-      op1=Integer.parseInt(op1s);
-    }
-    println(op1);
+    //question();
   }
+}
+
+void question() {
+    if (frmOpt == null) {
+        frmOpt = new JFrame();
+    }
+    frmOpt.setVisible(true);
+    frmOpt.setLocation(400, 400);
+    frmOpt.setAlwaysOnTop(true);
+    String response = JOptionPane.showInputDialog(frmOpt, "Enter the Scramble Sequence", "");
+    if(response!=null && response.length()>0){
+      // replace space with _
+      response = response.replaceAll(" ", "_");
+      println(response);
+      translateMoves(response, "_");
+    }
+    frmOpt.dispose();
 }
 
 void createCube(){
@@ -148,6 +154,10 @@ void scramble(){
   
   println(moves);
   
+  translateMoves(moves, "_");
+}
+
+void translateMoves(String moves, String seperator){
   sequence = new ArrayList<Move>();
   for(String move : moves.split("_")){
     if(movesMap.containsKey(move)){
