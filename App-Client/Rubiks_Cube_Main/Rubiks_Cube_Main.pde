@@ -52,7 +52,7 @@ color ScurrentColor;
 boolean SrectOver = false;
 
 // custom scramble sequence input
-int IrectX = 200;  // Position of square button
+int IrectX = 225;  // Position of square button
 int IrectY=500;
 int IrectWidth = 120;
 int IrectHeight = 70;
@@ -111,6 +111,8 @@ void draw() {
 }
 
 void question() {
+    moves = "";
+    counter = 0;
     if (frmOpt == null) {
         frmOpt = new JFrame();
     }
@@ -157,9 +159,10 @@ void scramble(){
   translateMoves(moves, "_");
 }
 
-void translateMoves(String moves, String seperator){
+void translateMoves(String moves_, String seperator){
+  moves = moves_;
   sequence = new ArrayList<Move>();
-  for(String move : moves.split("_")){
+  for(String move : moves.split(seperator)){
     if(movesMap.containsKey(move)){
       // any move without no, eg F U F' U' .....
       Move cmove = movesMap.get(move);
