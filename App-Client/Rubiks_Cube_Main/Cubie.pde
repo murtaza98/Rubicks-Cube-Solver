@@ -43,7 +43,29 @@ class Cubie {
   
   void update(int x, int y, int z) {
     matrix.reset(); 
-    matrix.translate(x, y, z);
+    float tx = x;
+    float ty = y;
+    float tz = z;
+    if(dim==4){
+      if(x<0){
+        tx+= 0.5;
+      }else{
+        tx -= 0.5;
+      }
+      
+      if(y<0){
+        ty+= 0.5;
+      }else{
+        ty -= 0.5;
+      }
+      
+      if(z<0){
+        tz+= 0.5;
+      }else{
+        tz -= 0.5;
+      }
+    }
+    matrix.translate(tx, ty, tz);
     this.x = x;
     this.y = y;
     this.z = z;

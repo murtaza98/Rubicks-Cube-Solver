@@ -6,7 +6,7 @@ import javax.swing.*;
 
 PeasyCam cam;
 
-final float SCRAMBLE_SPEED = 0.5;
+final float SCRAMBLE_SPEED = 0.02;
 final float SOLVE_SPEED = 0.10;
 
 float speed = SCRAMBLE_SPEED;
@@ -183,23 +183,27 @@ void createCube(){
         float tx = x;
         float ty = y;
         float tz = z;
-        if(x<0){
-          tx+= 0.5;
-        }else{
-          tx -= 0.5;
+        
+        if(dim==4){
+          if(x<0){
+            tx+= 0.5;
+          }else{
+            tx -= 0.5;
+          }
+          
+          if(y<0){
+            ty+= 0.5;
+          }else{
+            ty -= 0.5;
+          }
+          
+          if(z<0){
+            tz+= 0.5;
+          }else{
+            tz -= 0.5;
+          }
         }
         
-        if(y<0){
-          ty+= 0.5;
-        }else{
-          ty -= 0.5;
-        }
-        
-        if(z<0){
-          tz+= 0.5;
-        }else{
-          tz -= 0.5;
-        }
         
         PMatrix3D matrix = new PMatrix3D();
         matrix.translate(tx, ty, tz);
@@ -212,7 +216,7 @@ void createCube(){
 
 void scramble(){
   
-  moves = "D";
+  moves = "D_U_R_L_F_B";
   //counter = 0;
   //Random random = new Random();
   //for(int i=0;i<scramble_moves_length;i++){
