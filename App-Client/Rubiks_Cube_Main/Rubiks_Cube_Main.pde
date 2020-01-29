@@ -4,11 +4,12 @@ import http.requests.*;
 import java.util.Random;
 import javax.swing.*; 
 import java.util.*;
+import java.lang.*;
 
 PeasyCam cam;
 
-final float SCRAMBLE_SPEED = 0.5;
-final float SOLVE_SPEED = 0.10;
+final float SCRAMBLE_SPEED = 0.02;
+final float SOLVE_SPEED = 0.02;
 
 float speed = SCRAMBLE_SPEED;
 
@@ -21,7 +22,7 @@ HashMap<String, Move> movesMap = new HashMap<String, Move>();
 // dim to movesMap
 HashMap<Integer, HashMap<String, Move>> dimToMoves = new HashMap<Integer, HashMap<String, Move>>();
 
-int scramble_moves_length = 50;
+int scramble_moves_length = 10;
 
 ArrayList<Move> sequence = null;
 ArrayList<Move> solveSequence = null;
@@ -167,7 +168,15 @@ void question() {
       // replace space with _
       response = response.replaceAll(" ", "_");
       println(response);
-      translateMoves(response, "_");
+
+      // translate moves to internal representation
+      sequence = new ArrayList<Move>();
+      translateMoves(response, "_", sequence, false);
+
+      // start scramble
+      scrambleCurrMove = sequence.get(counter);
+      speed = SCRAMBLE_SPEED;
+      scrambleCurrMove.start();
     }
     frmOpt.dispose();
 }
@@ -240,24 +249,50 @@ void scramble(){
   
   println(moves);
   
-  translateMoves(moves, "_");
+
+  // translate moves to internal representation
+  sequence = new ArrayList<Move>();
+  translateMoves(moves, "_", sequence, false);
+
+  // start scramble
+  scrambleCurrMove = sequence.get(counter);
+  speed = SCRAMBLE_SPEED;
+  scrambleCurrMove.start();
+
 }
 
-void translateMoves(String moves_, String seperator){
+void translateMoves(String moves_, String seperator, ArrayList<Move> movesList, boolean reverse){
   moves = moves_;
-  sequence = new ArrayList<Move>();
-  for(String move : moves.split(seperator)){
+
+  String[] extraMovesList = {"x", "x'", "y", "y'", "z", "z'"};
+  HashSet<String> extraMoves = new HashSet<String>(Arrays.asList(extraMovesList));
+
+  String[] movesArray = moves.split(seperator);
+  if(reverse){
+    // reverse array
+    for(int i=0; i<movesArray.length/2; i++){
+      String temp = movesArray[i];
+      movesArray[i] = movesArray[movesArray.length -i -1];
+      movesArray[movesArray.length -i -1] = temp;
+    }
+  }
+  println(Arrays.toString(movesArray));
+  
+  for(String move : movesArray){
+    if(extraMoves.contains(move)){
+      continue;
+    }
     if(movesMap.containsKey(move)){
       // any move without no, eg F U F' U' .....
       Move cmove = movesMap.get(move);
-      sequence.add(cmove);
+      movesList.add(cmove);
     }else{
       // any move with no, eg F2 U2, Fw2, Uw2 ......
       if(move.charAt(1)=='2'){
         // F2, U2 ...
         Move cmove = movesMap.get(move.charAt(0)+"");
-        sequence.add(cmove);
-        sequence.add(cmove);
+        movesList.add(cmove);
+        movesList.add(cmove);
       }else {
         // Fw2, Uw2, Fw, Fw' ....
 
@@ -268,34 +303,29 @@ void translateMoves(String moves_, String seperator){
         if(movesMap.containsKey(move)){
           // any move without no, eg F U F' U' .....
           Move cmove = movesMap.get(move);
-          sequence.add(cmove);
+          movesList.add(cmove);
         }else{
           // any move with no, eg F2 U2 ...
           Move cmove = movesMap.get(move.charAt(0)+"");
-          sequence.add(cmove);
-          sequence.add(cmove);
+          movesList.add(cmove);
+          movesList.add(cmove);
         }
 
         // for small char
-        moves = moves.toLowerCase();
+        move = move.toLowerCase();
         if(movesMap.containsKey(move)){
           // any move without no, eg F U F' U' .....
           Move cmove = movesMap.get(move);
-          sequence.add(cmove);
+          movesList.add(cmove);
         }else{
           // any move with no, eg F2 U2 ...
           Move cmove = movesMap.get(move.charAt(0)+"");
-          sequence.add(cmove);
-          sequence.add(cmove);
+          movesList.add(cmove);
+          movesList.add(cmove);
         }
       }
     }
   }
-  
-  scrambleCurrMove = sequence.get(counter);
-
-  speed = SCRAMBLE_SPEED;
-  scrambleCurrMove.start();
 }
 
 void solve(){
@@ -344,37 +374,13 @@ void solve(){
     String[] tmp = solveMoves.trim().split("\\s+");
     println(Arrays.toString(tmp));
 
-    
+    solveSequence = new ArrayList<Move>();
+    translateMoves(solveMoves, "\\s+", solveSequence, false);
 
-
-
-    // if (resp_json == null) {
-    //   println("JSONObject could not be parsed");
-    // } else {
-    //   String solveMoves = resp_json.getString("sequence");
-    //   println(solveMoves);
-      
-    //   solveSequence = new ArrayList<Move>();
-    //   for(String move : solveMoves.split(" ")){
-    //     if(movesMap.containsKey(move)){
-    //       // any move without no, eg F U F' U' .....
-    //       Move cmove = movesMap.get(move);
-    //       solveSequence.add(cmove);
-    //     }else{
-    //       // any move with no, eg F2 U2 ......
-    //       Move cmove = movesMap.get(move.charAt(0)+"");
-    //       solveSequence.add(cmove);
-    //       solveSequence.add(cmove);
-    //     }
-    //   }
-      
-    //   println(solveSequence.size());
-      
-    //   counter = 0;
-    //   speed = SOLVE_SPEED;
-    //   solveCurrMove = solveSequence.get(counter);
-    //   solveCurrMove.start();
-    // }
+    counter = 0;
+    speed = SOLVE_SPEED;
+    solveCurrMove = solveSequence.get(counter);
+    solveCurrMove.start();
   }
 }
 

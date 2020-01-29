@@ -22,7 +22,6 @@ public class JavaHTTPServer implements Runnable{
 	// Client Connection via Socket Class
     private Socket socket;
     
-    private static Search search = new Search();
 	
 	public JavaHTTPServer(Socket c) {
 		socket = c;
@@ -77,7 +76,7 @@ public class JavaHTTPServer implements Runnable{
             scrambleMoves = scrambleMoves.replaceAll("_", " ");
 
             System.out.println(scrambleMoves);
-
+            Search search = new Search();
             String solutionMoves = search.solve(scrambleMoves);
             System.out.println(solutionMoves);
             
