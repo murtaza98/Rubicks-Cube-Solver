@@ -67,7 +67,7 @@ public class Search {
 	int arr2idx = 0;
 
 	public boolean inverse_solution = false;
-	public boolean with_rotation = true;
+	public boolean with_rotation = false;
 
 	public Search() {
 		for (int i=0; i<20; i++) {

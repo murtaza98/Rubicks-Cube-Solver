@@ -8,8 +8,9 @@ import java.lang.*;
 
 PeasyCam cam;
 
-final float SCRAMBLE_SPEED = 0.02;
-final float SOLVE_SPEED = 0.02;
+final float SCRAMBLE_SPEED = 0.5;
+final float SOLVE_SPEED = 0.10;
+int scramble_moves_length = 50;
 
 float speed = SCRAMBLE_SPEED;
 
@@ -22,14 +23,13 @@ HashMap<String, Move> movesMap = new HashMap<String, Move>();
 // dim to movesMap
 HashMap<Integer, HashMap<String, Move>> dimToMoves = new HashMap<Integer, HashMap<String, Move>>();
 
-int scramble_moves_length = 10;
-
 ArrayList<Move> sequence = null;
 ArrayList<Move> solveSequence = null;
 int counter = 0;
 
 String[] x3AllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
-String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "f", "f'", "d", "d'", "u", "u'", "b", "b'", "r", "r'", "l", "l"};
+String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "Fw", "Fw'", "Dw", "Dw'", "Uw", "Uw'", "Bw", "Bw'", "Rw", "Rw'", "Lw", "Lw'"};
+
 String[] allMoves = null;
 HashMap<Integer, String[]> dimToAllMoves = new HashMap<Integer, String[]>();
 String moves = "";
@@ -242,7 +242,8 @@ void scramble(){
   counter = 0;
   Random random = new Random();
   for(int i=0;i<scramble_moves_length;i++){
-     moves += allMoves[random.nextInt(allMoves.length)] + "_";
+      String _cmove = allMoves[random.nextInt(allMoves.length)];
+      moves += _cmove + "_";
   }
   // to remove last underscore
   moves = moves.substring(0, moves.length()-1);
@@ -258,7 +259,6 @@ void scramble(){
   scrambleCurrMove = sequence.get(counter);
   speed = SCRAMBLE_SPEED;
   scrambleCurrMove.start();
-
 }
 
 void translateMoves(String moves_, String seperator, ArrayList<Move> movesList, boolean reverse){
@@ -295,6 +295,8 @@ void translateMoves(String moves_, String seperator, ArrayList<Move> movesList, 
         movesList.add(cmove);
       }else {
         // Fw2, Uw2, Fw, Fw' ....
+        // Anything with w means inner layer rotation
+        // i.e Fw2 --> f2, Fw' ---> f'
 
         // trick --> remove w and repeat for capital and small letter
         move = move.replace("w", "");

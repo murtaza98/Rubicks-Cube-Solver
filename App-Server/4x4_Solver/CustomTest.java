@@ -2,7 +2,7 @@ import cs.threephase.Search;
 
 class CustomTest{
     public static void main(String[] args){
-        String scrambleMoves = "U D R L U' R L B B L R L R B F U R L B B L R L B B L R L R B";
+        String scrambleMoves = "f L' b";
 
         Search search = new Search();
 
