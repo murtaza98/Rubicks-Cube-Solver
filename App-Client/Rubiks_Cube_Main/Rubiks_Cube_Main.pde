@@ -3,6 +3,7 @@ import java.util.Map;
 import http.requests.*;
 import java.util.Random;
 import javax.swing.*; 
+import java.util.*;
 
 PeasyCam cam;
 
@@ -251,10 +252,43 @@ void translateMoves(String moves_, String seperator){
       Move cmove = movesMap.get(move);
       sequence.add(cmove);
     }else{
-      // any move with no, eg F2 U2 ......
-      Move cmove = movesMap.get(move.charAt(0)+"");
-      sequence.add(cmove);
-      sequence.add(cmove);
+      // any move with no, eg F2 U2, Fw2, Uw2 ......
+      if(move.charAt(1)=='2'){
+        // F2, U2 ...
+        Move cmove = movesMap.get(move.charAt(0)+"");
+        sequence.add(cmove);
+        sequence.add(cmove);
+      }else {
+        // Fw2, Uw2, Fw, Fw' ....
+
+        // trick --> remove w and repeat for capital and small letter
+        move = move.replace("w", "");
+        
+        // for capital char
+        if(movesMap.containsKey(move)){
+          // any move without no, eg F U F' U' .....
+          Move cmove = movesMap.get(move);
+          sequence.add(cmove);
+        }else{
+          // any move with no, eg F2 U2 ...
+          Move cmove = movesMap.get(move.charAt(0)+"");
+          sequence.add(cmove);
+          sequence.add(cmove);
+        }
+
+        // for small char
+        moves = moves.toLowerCase();
+        if(movesMap.containsKey(move)){
+          // any move without no, eg F U F' U' .....
+          Move cmove = movesMap.get(move);
+          sequence.add(cmove);
+        }else{
+          // any move with no, eg F2 U2 ...
+          Move cmove = movesMap.get(move.charAt(0)+"");
+          sequence.add(cmove);
+          sequence.add(cmove);
+        }
+      }
     }
   }
   
@@ -268,37 +302,79 @@ void solve(){
   if(moves==null || moves==""){
     return;
   }
-  
-  GetRequest get = new GetRequest("http://localhost:3000/api/solve/"+moves);
-  get.send();
-  //println("Reponse Content: " + get.getContent());
-  JSONObject resp_json = parseJSONObject(get.getContent());
-  if (resp_json == null) {
-    println("JSONObject could not be parsed");
-  } else {
-    String solveMoves = resp_json.getString("sequence");
-    println(solveMoves);
-    
-    solveSequence = new ArrayList<Move>();
-    for(String move : solveMoves.split(" ")){
-      if(movesMap.containsKey(move)){
-        // any move without no, eg F U F' U' .....
-        Move cmove = movesMap.get(move);
-        solveSequence.add(cmove);
-      }else{
-        // any move with no, eg F2 U2 ......
-        Move cmove = movesMap.get(move.charAt(0)+"");
-        solveSequence.add(cmove);
-        solveSequence.add(cmove);
+
+  if(dim==3){
+    GetRequest get = new GetRequest("http://localhost:3000/api/solve/"+moves);
+    get.send();
+    //println("Reponse Content: " + get.getContent());
+    JSONObject resp_json = parseJSONObject(get.getContent());
+    if (resp_json == null) {
+      println("JSONObject could not be parsed");
+    } else {
+      String solveMoves = resp_json.getString("sequence");
+      println(solveMoves);
+      
+      solveSequence = new ArrayList<Move>();
+      for(String move : solveMoves.split(" ")){
+        if(movesMap.containsKey(move)){
+          // any move without no, eg F U F' U' .....
+          Move cmove = movesMap.get(move);
+          solveSequence.add(cmove);
+        }else{
+          // any move with no, eg F2 U2 ......
+          Move cmove = movesMap.get(move.charAt(0)+"");
+          solveSequence.add(cmove);
+          solveSequence.add(cmove);
+        }
       }
+      
+      println(solveSequence.size());
+      
+      counter = 0;
+      speed = SOLVE_SPEED;
+      solveCurrMove = solveSequence.get(counter);
+      solveCurrMove.start();
     }
+  }else if(dim==4){
+    GetRequest get = new GetRequest("http://localhost:4000?scramble="+moves);
+    get.send();
+    println("Reponse Content: " + get.getContent());
+    String solveMoves = get.getContent();
+
+    String[] tmp = solveMoves.trim().split("\\s+");
+    println(Arrays.toString(tmp));
+
     
-    println(solveSequence.size());
-    
-    counter = 0;
-    speed = SOLVE_SPEED;
-    solveCurrMove = solveSequence.get(counter);
-    solveCurrMove.start();
+
+
+
+    // if (resp_json == null) {
+    //   println("JSONObject could not be parsed");
+    // } else {
+    //   String solveMoves = resp_json.getString("sequence");
+    //   println(solveMoves);
+      
+    //   solveSequence = new ArrayList<Move>();
+    //   for(String move : solveMoves.split(" ")){
+    //     if(movesMap.containsKey(move)){
+    //       // any move without no, eg F U F' U' .....
+    //       Move cmove = movesMap.get(move);
+    //       solveSequence.add(cmove);
+    //     }else{
+    //       // any move with no, eg F2 U2 ......
+    //       Move cmove = movesMap.get(move.charAt(0)+"");
+    //       solveSequence.add(cmove);
+    //       solveSequence.add(cmove);
+    //     }
+    //   }
+      
+    //   println(solveSequence.size());
+      
+    //   counter = 0;
+    //   speed = SOLVE_SPEED;
+    //   solveCurrMove = solveSequence.get(counter);
+    //   solveCurrMove.start();
+    // }
   }
 }
 
