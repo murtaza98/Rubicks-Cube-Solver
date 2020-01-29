@@ -91,18 +91,30 @@ void setup() {
   
   // fill 4x4 MovesMap
   HashMap<String, Move> x4MovesMap = new HashMap<String, Move>();
-  x4MovesMap.put("F", new Move(0, 0, 1, 1));
-  x4MovesMap.put("F'", new Move(0, 0, 1, -1));
-  x4MovesMap.put("B", new Move(0, 0, -1, -1));
-  x4MovesMap.put("B'", new Move(0, 0, -1, 1));
-  x4MovesMap.put("D", new Move(0, 1, 0, -1));
-  x4MovesMap.put("D'", new Move(0, 1, 0, 1));
-  x4MovesMap.put("U", new Move(0, -1, 0, 1));
-  x4MovesMap.put("U'", new Move(0, -1, 0, -1));
-  x4MovesMap.put("R", new Move(1, 0, 0, 1));
-  x4MovesMap.put("R'", new Move(1, 0, 0, -1));
-  x4MovesMap.put("L", new Move(-1, 0, 0, -1));
-  x4MovesMap.put("L'", new Move(-1, 0, 0, 1));
+  x4MovesMap.put("f", new Move(0, 0, 1, 1));
+  x4MovesMap.put("f'", new Move(0, 0, 1, -1));
+  x4MovesMap.put("b", new Move(0, 0, -1, -1));
+  x4MovesMap.put("b'", new Move(0, 0, -1, 1));
+  x4MovesMap.put("d", new Move(0, 1, 0, -1));
+  x4MovesMap.put("d'", new Move(0, 1, 0, 1));
+  x4MovesMap.put("u", new Move(0, -1, 0, 1));
+  x4MovesMap.put("u'", new Move(0, -1, 0, -1));
+  x4MovesMap.put("r", new Move(1, 0, 0, 1));
+  x4MovesMap.put("r'", new Move(1, 0, 0, -1));
+  x4MovesMap.put("l", new Move(-1, 0, 0, -1));
+  x4MovesMap.put("l'", new Move(-1, 0, 0, 1));
+  x4MovesMap.put("F", new Move(0, 0, 2, 1));
+  x4MovesMap.put("F'", new Move(0, 0, 2, -1));
+  x4MovesMap.put("B", new Move(0, 0, -2, -1));
+  x4MovesMap.put("B'", new Move(0, 0, -2, 1));
+  x4MovesMap.put("D", new Move(0, 2, 0, -1));
+  x4MovesMap.put("D'", new Move(0, 2, 0, 1));
+  x4MovesMap.put("U", new Move(0, -2, 0, 1));
+  x4MovesMap.put("U'", new Move(0, -2, 0, -1));
+  x4MovesMap.put("R", new Move(2, 0, 0, 1));
+  x4MovesMap.put("R'", new Move(2, 0, 0, -1));
+  x4MovesMap.put("L", new Move(-2, 0, 0, -1));
+  x4MovesMap.put("L'", new Move(-2, 0, 0, 1));
   
   
   dimToAllMoves.put(3, x3AllMoves);
@@ -216,7 +228,7 @@ void createCube(){
 
 void scramble(){
   
-  moves = "D_U_R_L_F_B";
+  moves = new String("D_U_R_L_F_B").toLowerCase();
   //counter = 0;
   //Random random = new Random();
   //for(int i=0;i<scramble_moves_length;i++){
