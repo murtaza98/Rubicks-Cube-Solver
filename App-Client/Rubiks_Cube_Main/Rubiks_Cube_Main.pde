@@ -11,11 +11,14 @@ final float SOLVE_SPEED = 0.10;
 
 float speed = SCRAMBLE_SPEED;
 
-int dim = 3;
+int dim = 4;
 Cubie[] cube = new Cubie[dim*dim*dim];
 
 //map character notation of moves to internal representation
 HashMap<String, Move> movesMap = new HashMap<String, Move>();
+
+// dim to movesMap
+HashMap<Integer, HashMap<String, Move>> dimToMoves = new HashMap<Integer, HashMap<String, Move>>();
 
 int scramble_moves_length = 50;
 
@@ -23,7 +26,10 @@ ArrayList<Move> sequence = null;
 ArrayList<Move> solveSequence = null;
 int counter = 0;
 
-String[] allMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'"};
+String[] x3AllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
+String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "f", "f'", "d", "d'", "u", "u'", "b", "b'", "r", "r'", "l", "l"};
+String[] allMoves = null;
+HashMap<Integer, String[]> dimToAllMoves = new HashMap<Integer, String[]>();
 String moves = "";
 
 boolean started = false;
@@ -68,22 +74,46 @@ JFrame frmOpt;  //dummy JFrame
 void setup() {
   size(600, 600, P3D);
   
-  //fill movesMap
-  movesMap.put("F", new Move(0, 0, 1, 1));
-  movesMap.put("F'", new Move(0, 0, 1, -1));
-  movesMap.put("B", new Move(0, 0, -1, -1));
-  movesMap.put("B'", new Move(0, 0, -1, 1));
-  movesMap.put("D", new Move(0, 1, 0, -1));
-  movesMap.put("D'", new Move(0, 1, 0, 1));
-  movesMap.put("U", new Move(0, -1, 0, 1));
-  movesMap.put("U'", new Move(0, -1, 0, -1));
-  movesMap.put("R", new Move(1, 0, 0, 1));
-  movesMap.put("R'", new Move(1, 0, 0, -1));
-  movesMap.put("L", new Move(-1, 0, 0, -1));
-  movesMap.put("L'", new Move(-1, 0, 0, 1));
+  //fill 3x3 movesMap
+  HashMap<String, Move> x3MovesMap = new HashMap<String, Move>();
+  x3MovesMap.put("F", new Move(0, 0, 1, 1));
+  x3MovesMap.put("F'", new Move(0, 0, 1, -1));
+  x3MovesMap.put("B", new Move(0, 0, -1, -1));
+  x3MovesMap.put("B'", new Move(0, 0, -1, 1));
+  x3MovesMap.put("D", new Move(0, 1, 0, -1));
+  x3MovesMap.put("D'", new Move(0, 1, 0, 1));
+  x3MovesMap.put("U", new Move(0, -1, 0, 1));
+  x3MovesMap.put("U'", new Move(0, -1, 0, -1));
+  x3MovesMap.put("R", new Move(1, 0, 0, 1));
+  x3MovesMap.put("R'", new Move(1, 0, 0, -1));
+  x3MovesMap.put("L", new Move(-1, 0, 0, -1));
+  x3MovesMap.put("L'", new Move(-1, 0, 0, 1));
+  
+  // fill 4x4 MovesMap
+  HashMap<String, Move> x4MovesMap = new HashMap<String, Move>();
+  x4MovesMap.put("F", new Move(0, 0, 1, 1));
+  x4MovesMap.put("F'", new Move(0, 0, 1, -1));
+  x4MovesMap.put("B", new Move(0, 0, -1, -1));
+  x4MovesMap.put("B'", new Move(0, 0, -1, 1));
+  x4MovesMap.put("D", new Move(0, 1, 0, -1));
+  x4MovesMap.put("D'", new Move(0, 1, 0, 1));
+  x4MovesMap.put("U", new Move(0, -1, 0, 1));
+  x4MovesMap.put("U'", new Move(0, -1, 0, -1));
+  x4MovesMap.put("R", new Move(1, 0, 0, 1));
+  x4MovesMap.put("R'", new Move(1, 0, 0, -1));
+  x4MovesMap.put("L", new Move(-1, 0, 0, -1));
+  x4MovesMap.put("L'", new Move(-1, 0, 0, 1));
+  
+  
+  dimToAllMoves.put(3, x3AllMoves);
+  dimToAllMoves.put(4, x4AllMoves);
+  
+  dimToMoves.put(3, x3MovesMap);
+  dimToMoves.put(4, x4MovesMap);
+    
   
   //fullScreen(P3D);
-  cam = new PeasyCam(this, 400);
+  cam = new PeasyCam(this, 600);
   
   createCube();
 }
@@ -130,12 +160,49 @@ void question() {
 }
 
 void createCube(){
+  
+  movesMap = dimToMoves.get(dim);
+  allMoves = dimToAllMoves.get(dim);
+
+  int start=0,end=0;
+  if(dim==3){
+    start=-1;
+    end=1;
+  }else if(dim==4){
+    start=-2;
+    end=2;
+  }
+  
   int index = 0;
-  for (int x = -1; x <= 1; x++) {
-    for (int y = -1; y <= 1; y++) {
-      for (int z = -1; z <= 1; z++) {
+  for (int x = start; x <= end; x++) {
+    for (int y = start; y <= end; y++) {
+      for (int z = start; z <= end; z++) {
+        if(x==0 || y==0 || z==0){
+          continue;
+        }
+        float tx = x;
+        float ty = y;
+        float tz = z;
+        if(x<0){
+          tx+= 0.5;
+        }else{
+          tx -= 0.5;
+        }
+        
+        if(y<0){
+          ty+= 0.5;
+        }else{
+          ty -= 0.5;
+        }
+        
+        if(z<0){
+          tz+= 0.5;
+        }else{
+          tz -= 0.5;
+        }
+        
         PMatrix3D matrix = new PMatrix3D();
-        matrix.translate(x, y, z);
+        matrix.translate(tx, ty, tz);
         cube[index] = new Cubie(matrix, x, y, z);
         index++;
       }
@@ -145,14 +212,14 @@ void createCube(){
 
 void scramble(){
   
-  moves = "";
-  counter = 0;
-  Random random = new Random();
-  for(int i=0;i<scramble_moves_length;i++){
-      moves += allMoves[random.nextInt(allMoves.length)] + "_";
-  }
-  // to remove last underscore
-  moves = moves.substring(0, moves.length()-1);
+  moves = "D";
+  //counter = 0;
+  //Random random = new Random();
+  //for(int i=0;i<scramble_moves_length;i++){
+  //    moves += allMoves[random.nextInt(allMoves.length)] + "_";
+  //}
+  //// to remove last underscore
+  //moves = moves.substring(0, moves.length()-1);
   
   println(moves);
   
