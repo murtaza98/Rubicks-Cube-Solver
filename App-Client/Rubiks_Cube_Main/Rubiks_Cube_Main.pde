@@ -6,7 +6,7 @@ import javax.swing.*;
 
 PeasyCam cam;
 
-final float SCRAMBLE_SPEED = 0.02;
+final float SCRAMBLE_SPEED = 0.5;
 final float SOLVE_SPEED = 0.10;
 
 float speed = SCRAMBLE_SPEED;
@@ -228,14 +228,14 @@ void createCube(){
 
 void scramble(){
   
-  moves = new String("D_U_R_L_F_B").toLowerCase();
-  //counter = 0;
-  //Random random = new Random();
-  //for(int i=0;i<scramble_moves_length;i++){
-  //    moves += allMoves[random.nextInt(allMoves.length)] + "_";
-  //}
-  //// to remove last underscore
-  //moves = moves.substring(0, moves.length()-1);
+  moves = "";
+  counter = 0;
+  Random random = new Random();
+  for(int i=0;i<scramble_moves_length;i++){
+     moves += allMoves[random.nextInt(allMoves.length)] + "_";
+  }
+  // to remove last underscore
+  moves = moves.substring(0, moves.length()-1);
   
   println(moves);
   
