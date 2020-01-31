@@ -46,7 +46,7 @@ class Cubie {
     float tx = x;
     float ty = y;
     float tz = z;
-    if(dim==4){
+    if(dim%2==0){
       if(x<0){
         tx+= 0.5;
       }else{

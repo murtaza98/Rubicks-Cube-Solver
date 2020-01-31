@@ -93,14 +93,16 @@ void mousePressed() {
     println("Input Pressed");
   }else if(PrectOver){
     IcurrentColor = IrectColor;
-    if(dim+1 <= 7){
+    if(dim+1 <= 11){
       dim++;
+      createCube();
     }
     println("Plus Pressed");
   }else if(MrectOver){
     IcurrentColor = IrectColor;
     if(dim-1>=3){
       dim--;
+      createCube();
     }
     println("Minus Pressed");
   }

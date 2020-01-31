@@ -35,12 +35,14 @@ String moves = "";
 
 boolean started = false;
 
+HashMap<Integer, Integer> dimToScale = new HashMap<Integer, Integer>();
+
 Move scrambleCurrMove;
 Move solveCurrMove;
 
 // Scramble Button
-int rectX = 400;  // Position of square button
-int rectY=500;
+int rectX = 470;  // Position of square button
+int rectY=600;
 int rectWidth = 180;
 int rectHeight = 70;
 color rectColor = color(255);
@@ -50,7 +52,7 @@ boolean rectOver = false;
 
 // Solve Button
 int SrectX = 50;  // Position of square button
-int SrectY=500;
+int SrectY=600;
 int SrectWidth = 120;
 int SrectHeight = 70;
 color SrectColor = color(255);
@@ -59,8 +61,8 @@ color ScurrentColor;
 boolean SrectOver = false;
 
 // custom scramble sequence input
-int IrectX = 225;  // Position of square button
-int IrectY=500;
+int IrectX = 260;  // Position of square button
+int IrectY=600;
 int IrectWidth = 120;
 int IrectHeight = 70;
 color IrectColor = color(255);
@@ -93,11 +95,24 @@ boolean txtFieldInitialized = false;
 JFrame frmOpt;  //dummy JFrame
 
 void setup() {
-  size(600, 600, P3D);
+  size(700, 700, P3D);
 
   dimToAllMoves.put(3, x3AllMoves);
   dimToAllMoves.put(4, x4AllMoves);
-  
+
+
+  dimToScale.put(3, 50);
+  dimToScale.put(4, 50);
+  dimToScale.put(5, 50);
+  dimToScale.put(6, 40);
+  dimToScale.put(7, 35);
+  dimToScale.put(8, 35);
+  dimToScale.put(9, 30);
+  dimToScale.put(10, 28);
+  dimToScale.put(11, 26);
+
+
+
   //fullScreen(P3D);
   cam = new PeasyCam(this, 600);
   
@@ -110,15 +125,22 @@ void draw() {
   cam.beginHUD();
   fill(255);
   textSize(32);
-  text(counter, 500, 100);
+  text(counter, 600, 100);
   textSize(17);
-  text("Counter", 480, 60);
+  text("Counter", 580, 60);
   cam.endHUD();
 
   cam.beginHUD();
   fill(255);
   textSize(32);
-  text(dim, 60, 132);
+  if(dim<=9){
+    // single digit
+    text(dim, 60, 132);
+  }else{
+    // double digit
+    text(dim, 52, 132);
+  }
+  
   textSize(17);
   text("Change Dimentions", 5, 35);
   cam.endHUD();
@@ -165,29 +187,27 @@ void question() {
 
 void createCube(){
   
-  allMoves = dimToAllMoves.get(dim);
 
   int start=0,end=0;
-  if(dim==3){
-    start=-1;
-    end=1;
-  }else if(dim==4){
-    start=-2;
-    end=2;
-  }
+  start = -1 * (dim/2);
+  end = 1 * (dim/2);
+
+  cube = new Cubie[dim*dim*dim];
+
+  allMoves = dimToAllMoves.get(dim);
   
   int index = 0;
   for (int x = start; x <= end; x++) {
     for (int y = start; y <= end; y++) {
       for (int z = start; z <= end; z++) {
-        if(x==0 || y==0 || z==0){
+        if(dim%2==0 && (x==0 || y==0 || z==0)){
           continue;
         }
         float tx = x;
         float ty = y;
         float tz = z;
         
-        if(dim==4){
+        if(dim%2==0){
           if(x<0){
             tx+= 0.5;
           }else{
@@ -215,6 +235,7 @@ void createCube(){
       }
     }
   }
+
 }
 
 void scramble(){
@@ -363,7 +384,7 @@ void updateFrame(){
   rotateZ(0.1);
   
   if(scrambleCurrMove==null && solveCurrMove==null){
-    scale(50);
+    scale(dimToScale.get(dim));
     push();
     for (int i = 0; i < cube.length; i++) {   
       cube[i].show();
@@ -408,7 +429,7 @@ void updateFrame(){
   if(currMove==null){
     return;
   }
-  scale(50);
+  scale(dimToScale.get(dim));
   for (int i = 0; i < cube.length; i++) {
     push();
     if (abs(cube[i].z) > 0 && cube[i].z == currMove.z) {
