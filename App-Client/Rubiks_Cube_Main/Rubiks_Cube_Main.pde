@@ -20,8 +20,6 @@ Cubie[] cube = new Cubie[dim*dim*dim];
 //map character notation of moves to internal representation
 HashMap<String, Move> movesMap = new HashMap<String, Move>();
 
-// dim to movesMap
-HashMap<Integer, HashMap<String, Move>> dimToMoves = new HashMap<Integer, HashMap<String, Move>>();
 
 ArrayList<Move> sequence = null;
 ArrayList<Move> solveSequence = null;
@@ -29,6 +27,7 @@ int counter = 0;
 
 String[] x3AllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
 String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "Fw", "Fw'", "Dw", "Dw'", "Uw", "Uw'", "Bw", "Bw'", "Rw", "Rw'", "Lw", "Lw'"};
+String[] nxnAllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
 
 String[] allMoves = null;
 HashMap<Integer, String[]> dimToAllMoves = new HashMap<Integer, String[]>();
@@ -75,56 +74,9 @@ JFrame frmOpt;  //dummy JFrame
 
 void setup() {
   size(600, 600, P3D);
-  
-  //fill 3x3 movesMap
-  HashMap<String, Move> x3MovesMap = new HashMap<String, Move>();
-  x3MovesMap.put("F", new Move(0, 0, 1, 1));
-  x3MovesMap.put("F'", new Move(0, 0, 1, -1));
-  x3MovesMap.put("B", new Move(0, 0, -1, -1));
-  x3MovesMap.put("B'", new Move(0, 0, -1, 1));
-  x3MovesMap.put("D", new Move(0, 1, 0, -1));
-  x3MovesMap.put("D'", new Move(0, 1, 0, 1));
-  x3MovesMap.put("U", new Move(0, -1, 0, 1));
-  x3MovesMap.put("U'", new Move(0, -1, 0, -1));
-  x3MovesMap.put("R", new Move(1, 0, 0, 1));
-  x3MovesMap.put("R'", new Move(1, 0, 0, -1));
-  x3MovesMap.put("L", new Move(-1, 0, 0, -1));
-  x3MovesMap.put("L'", new Move(-1, 0, 0, 1));
-  
-  // fill 4x4 MovesMap
-  HashMap<String, Move> x4MovesMap = new HashMap<String, Move>();
-  x4MovesMap.put("f", new Move(0, 0, 1, 1));
-  x4MovesMap.put("f'", new Move(0, 0, 1, -1));
-  x4MovesMap.put("b", new Move(0, 0, -1, -1));
-  x4MovesMap.put("b'", new Move(0, 0, -1, 1));
-  x4MovesMap.put("d", new Move(0, 1, 0, -1));
-  x4MovesMap.put("d'", new Move(0, 1, 0, 1));
-  x4MovesMap.put("u", new Move(0, -1, 0, 1));
-  x4MovesMap.put("u'", new Move(0, -1, 0, -1));
-  x4MovesMap.put("r", new Move(1, 0, 0, 1));
-  x4MovesMap.put("r'", new Move(1, 0, 0, -1));
-  x4MovesMap.put("l", new Move(-1, 0, 0, -1));
-  x4MovesMap.put("l'", new Move(-1, 0, 0, 1));
-  x4MovesMap.put("F", new Move(0, 0, 2, 1));
-  x4MovesMap.put("F'", new Move(0, 0, 2, -1));
-  x4MovesMap.put("B", new Move(0, 0, -2, -1));
-  x4MovesMap.put("B'", new Move(0, 0, -2, 1));
-  x4MovesMap.put("D", new Move(0, 2, 0, -1));
-  x4MovesMap.put("D'", new Move(0, 2, 0, 1));
-  x4MovesMap.put("U", new Move(0, -2, 0, 1));
-  x4MovesMap.put("U'", new Move(0, -2, 0, -1));
-  x4MovesMap.put("R", new Move(2, 0, 0, 1));
-  x4MovesMap.put("R'", new Move(2, 0, 0, -1));
-  x4MovesMap.put("L", new Move(-2, 0, 0, -1));
-  x4MovesMap.put("L'", new Move(-2, 0, 0, 1));
-  
-  
+
   dimToAllMoves.put(3, x3AllMoves);
   dimToAllMoves.put(4, x4AllMoves);
-  
-  dimToMoves.put(3, x3MovesMap);
-  dimToMoves.put(4, x4MovesMap);
-    
   
   //fullScreen(P3D);
   cam = new PeasyCam(this, 600);
@@ -183,7 +135,6 @@ void question() {
 
 void createCube(){
   
-  movesMap = dimToMoves.get(dim);
   allMoves = dimToAllMoves.get(dim);
 
   int start=0,end=0;
@@ -282,50 +233,10 @@ void translateMoves(String moves_, String seperator, ArrayList<Move> movesList, 
     if(extraMoves.contains(move)){
       continue;
     }
-    if(movesMap.containsKey(move)){
-      // any move without no, eg F U F' U' .....
-      Move cmove = movesMap.get(move);
-      movesList.add(cmove);
-    }else{
-      // any move with no, eg F2 U2, Fw2, Uw2 ......
-      if(move.charAt(1)=='2'){
-        // F2, U2 ...
-        Move cmove = movesMap.get(move.charAt(0)+"");
-        movesList.add(cmove);
-        movesList.add(cmove);
-      }else {
-        // Fw2, Uw2, Fw, Fw' ....
-        // Anything with w means inner layer rotation
-        // i.e Fw2 --> f2, Fw' ---> f'
 
-        // trick --> remove w and repeat for capital and small letter
-        move = move.replace("w", "");
-        
-        // for capital char
-        if(movesMap.containsKey(move)){
-          // any move without no, eg F U F' U' .....
-          Move cmove = movesMap.get(move);
-          movesList.add(cmove);
-        }else{
-          // any move with no, eg F2 U2 ...
-          Move cmove = movesMap.get(move.charAt(0)+"");
-          movesList.add(cmove);
-          movesList.add(cmove);
-        }
-
-        // for small char
-        move = move.toLowerCase();
-        if(movesMap.containsKey(move)){
-          // any move without no, eg F U F' U' .....
-          Move cmove = movesMap.get(move);
-          movesList.add(cmove);
-        }else{
-          // any move with no, eg F2 U2 ...
-          Move cmove = movesMap.get(move.charAt(0)+"");
-          movesList.add(cmove);
-          movesList.add(cmove);
-        }
-      }
+    LinkedList<Move> translatedMoves = translateMovesUtil(move, dim);
+    for(Move m : translatedMoves){
+      movesList.add(m);
     }
   }
 }
