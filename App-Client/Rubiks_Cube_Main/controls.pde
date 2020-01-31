@@ -34,6 +34,28 @@ void updateButton(){
   fill(0);
   textSize(32);
   text("INPUT", IrectX+10, IrectY+47);
+
+  if (PrectOver) {
+    fill(PrectHighlight);
+  }else{
+    fill(PrectColor);
+  }
+  stroke(255);
+  rect(PrectX, PrectY, PrectWidth, PrectHeight);
+  fill(0);
+  textSize(32);
+  text("+", PrectX+8, PrectY+30);
+
+  if (MrectOver) {
+    fill(MrectHighlight);
+  }else{
+    fill(MrectColor);
+  }
+  stroke(255);
+  rect(MrectX, MrectY, MrectWidth, MrectHeight);
+  fill(0);
+  textSize(32);
+  text("-", MrectX+10, MrectY+30);
 }
 
 void update(int x, int y) {
@@ -43,10 +65,16 @@ void update(int x, int y) {
     SrectOver = true;
   } else if(overRect(IrectX, IrectY, IrectWidth, IrectHeight)){
     IrectOver = true;
-  } else {
+  } else if(overRect(PrectX, PrectY, PrectWidth, PrectHeight)){
+    PrectOver = true;
+  } else if(overRect(MrectX, MrectY, MrectWidth, MrectHeight)){
+    MrectOver = true;
+  }else {
     SrectOver = false;
     rectOver = false;
     IrectOver = false;
+    PrectOver = false;
+    MrectOver = false;
   }
 }
 
@@ -63,6 +91,18 @@ void mousePressed() {
     IcurrentColor = IrectColor;
     question();
     println("Input Pressed");
+  }else if(PrectOver){
+    IcurrentColor = IrectColor;
+    if(dim+1 <= 7){
+      dim++;
+    }
+    println("Plus Pressed");
+  }else if(MrectOver){
+    IcurrentColor = IrectColor;
+    if(dim-1>=3){
+      dim--;
+    }
+    println("Minus Pressed");
   }
   
 }

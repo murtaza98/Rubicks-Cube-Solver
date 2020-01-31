@@ -68,6 +68,26 @@ color IrectHighlight = color(0, 102, 153);
 color IcurrentColor;
 boolean IrectOver = false;
 
+// cube dimention plus button
+int PrectX = 50;  // Position of square button
+int PrectY=50;
+int PrectWidth = 40;
+int PrectHeight = 40;
+color PrectColor = color(255);
+color PrectHighlight = color(0, 102, 153);
+color PcurrentColor;
+boolean PrectOver = false;
+
+// cube dimention minus button
+int MrectX = 50;  // Position of square button
+int MrectY=150;
+int MrectWidth = 40;
+int MrectHeight = 40;
+color MrectColor = color(255);
+color MrectHighlight = color(0, 102, 153);
+color McurrentColor;
+boolean MrectOver = false;
+
 String scrambleInput;
 boolean txtFieldInitialized = false;
 JFrame frmOpt;  //dummy JFrame
@@ -90,7 +110,17 @@ void draw() {
   cam.beginHUD();
   fill(255);
   textSize(32);
-  text(counter, 100, 100);
+  text(counter, 500, 100);
+  textSize(17);
+  text("Counter", 480, 60);
+  cam.endHUD();
+
+  cam.beginHUD();
+  fill(255);
+  textSize(32);
+  text(dim, 60, 132);
+  textSize(17);
+  text("Change Dimentions", 5, 35);
   cam.endHUD();
   
   updateFrame();
