@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.swing.*; 
 import java.util.*;
 import java.lang.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 PeasyCam cam;
 
@@ -27,7 +28,6 @@ int counter = 0;
 
 String[] x3AllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
 String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "Fw", "Fw'", "Dw", "Dw'", "Uw", "Uw'", "Bw", "Bw'", "Rw", "Rw'", "Lw", "Lw'"};
-String[] nxnAllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
 
 String[] allMoves = null;
 HashMap<Integer, String[]> dimToAllMoves = new HashMap<Integer, String[]>();
@@ -192,16 +192,46 @@ void scramble(){
   moves = "";
   counter = 0;
   Random random = new Random();
-  for(int i=0;i<scramble_moves_length;i++){
+  if(dim==3){
+    for(int i=0;i<scramble_moves_length;i++){
       String _cmove = allMoves[random.nextInt(allMoves.length)];
       moves += _cmove + "_";
+    }
+  }else{
+    // generic scramble code
+    String[] nxnAllMoves = {"F", "D", "U", "B", "R", "L"};
+
+    for(int i=0;i<scramble_moves_length;i++){
+      int c_no_of_rows = ThreadLocalRandom.current().nextInt(1, (dim/2) + 1);
+
+      String c_move = nxnAllMoves[random.nextInt(nxnAllMoves.length)];
+      if(c_no_of_rows==1){
+        // no need to change c_move
+      }else if(c_no_of_rows==2){
+        // change F to Fw
+        c_move += "w";
+      }else{
+        // change F to 3F or 4F ... . nF 
+        c_move = c_no_of_rows + c_move;
+      }
+
+      // int c_no_of_turns = ThreadLocalRandom.current().nextInt(1, 2+1);
+      // if(c_no_of_turns==2){   // no need to include 1
+      //   c_move += "2";
+      // }
+
+      // for random direction, take mod of 2 of a random no
+      String direction = (random.nextInt(100)%2==0) ? "" : "'";
+      c_move += direction;
+
+      moves += c_move + "_";
+    }
   }
+  
   // to remove last underscore
   moves = moves.substring(0, moves.length()-1);
-  
   println(moves);
   
-
   // translate moves to internal representation
   sequence = new ArrayList<Move>();
   translateMoves(moves, "_", sequence, false);
