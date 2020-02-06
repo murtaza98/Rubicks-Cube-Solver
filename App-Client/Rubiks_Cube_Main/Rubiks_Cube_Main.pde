@@ -235,7 +235,6 @@ void createCube(){
       }
     }
   }
-
 }
 
 void scramble(){
@@ -361,6 +360,23 @@ void solve(){
     }
   }else if(dim==4){
     GetRequest get = new GetRequest("http://localhost:4000?scramble="+moves);
+    get.send();
+    println("Reponse Content: " + get.getContent());
+    String solveMoves = get.getContent();
+
+    String[] tmp = solveMoves.trim().split("\\s+");
+    println(Arrays.toString(tmp));
+
+    solveSequence = new ArrayList<Move>();
+    translateMoves(solveMoves, "\\s+", solveSequence, false);
+
+    counter = 0;
+    speed = SOLVE_SPEED;
+    solveCurrMove = solveSequence.get(counter);
+    solveCurrMove.start();
+  }else{
+    // for dim 5 ... 11
+    GetRequest get = new GetRequest(String.format("http://localhost:2000?dim=%s&scramble=%s", dim, moves));
     get.send();
     println("Reponse Content: " + get.getContent());
     String solveMoves = get.getContent();
