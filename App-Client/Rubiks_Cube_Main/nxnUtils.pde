@@ -65,6 +65,11 @@ LinkedList<Move> translateMovesUtil(String move, int dim){
         no_of_rows = Integer.parseInt(move.substring(0, 1));
         // We've accounted for this so remove it
         move = move.substring(1);
+    }else if(!Character.isUpperCase(move.charAt(0))){
+        // u2, u' -- this means rotate 2 rows 
+        no_of_rows = 2;
+        // We've accounted for this so remove it
+        move = move.toUpperCase();
     }else{
         // Uw also means rotate the top 2 U rows
         if(move.contains("w")){

@@ -27,7 +27,16 @@ ArrayList<Move> solveSequence = null;
 int counter = 0;
 
 String[] x3AllMoves = {"F", "F'", "D", "D'", "U", "U'", "B", "B'", "R", "R'", "L", "L'"};
-String[] x4AllMoves = {"F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", "Fw", "Fw'", "Dw", "Dw'", "Uw", "Uw'", "Bw", "Bw'", "Rw", "Rw'", "Lw", "Lw'"};
+String[] x4AllMoves = {
+      "F", "F'", "D", "D'", "U", "U'", "D", "D'", "R", "R'", "L", "L'", 
+      "Fw", "Fw'", "Dw", "Dw'", "Uw", "Uw'", "Bw", "Bw'", "Rw", "Rw'", "Lw", "Lw'"
+    };
+String[] x5AllMoves = {
+      "U", "U2", "U'", "R", "R2", "R'", "F", "F2", "F'",
+      "D", "D2", "D'", "L", "L2", "L'", "B", "B2", "B'",
+      "u", "u2", "u'", "r", "r2", "r'", "f", "f2", "f'",
+      "d", "d2", "d'", "l", "l2", "l'", "b", "b2", "b'"
+  };
 
 String[] allMoves = null;
 HashMap<Integer, String[]> dimToAllMoves = new HashMap<Integer, String[]>();
@@ -101,7 +110,7 @@ void setup() {
   dimToAllMoves.put(4, x4AllMoves);
 
 
-  dimToScale.put(3, 50);
+  dimToScale.put(3, 70);
   dimToScale.put(4, 50);
   dimToScale.put(5, 50);
   dimToScale.put(6, 40);
@@ -244,7 +253,13 @@ void scramble(){
   Random random = new Random();
   if(dim==3){
     for(int i=0;i<scramble_moves_length;i++){
-      String _cmove = allMoves[random.nextInt(allMoves.length)];
+      String _cmove = x3AllMoves[random.nextInt(x3AllMoves.length)];
+      moves += _cmove + "_";
+    }
+  }else if(dim==5){
+    // dim 5 have a different notation
+    for(int i=0;i<scramble_moves_length;i++){
+      String _cmove = x5AllMoves[random.nextInt(x5AllMoves.length)];
       moves += _cmove + "_";
     }
   }else{
@@ -337,19 +352,22 @@ void solve(){
       String solveMoves = resp_json.getString("sequence");
       println(solveMoves);
       
+      //solveSequence = new ArrayList<Move>();
+      //for(String move : solveMoves.split(" ")){
+      //  if(movesMap.containsKey(move)){
+      //    // any move without no, eg F U F' U' .....
+      //    Move cmove = movesMap.get(move);
+      //    solveSequence.add(cmove);
+      //  }else{
+      //    // any move with no, eg F2 U2 ......
+      //    Move cmove = movesMap.get(move.charAt(0)+"");
+      //    solveSequence.add(cmove);
+      //    solveSequence.add(cmove);
+      //  }
+      //}
+      
       solveSequence = new ArrayList<Move>();
-      for(String move : solveMoves.split(" ")){
-        if(movesMap.containsKey(move)){
-          // any move without no, eg F U F' U' .....
-          Move cmove = movesMap.get(move);
-          solveSequence.add(cmove);
-        }else{
-          // any move with no, eg F2 U2 ......
-          Move cmove = movesMap.get(move.charAt(0)+"");
-          solveSequence.add(cmove);
-          solveSequence.add(cmove);
-        }
-      }
+      translateMoves(solveMoves, "\\s+", solveSequence, false);
       
       println(solveSequence.size());
       
@@ -374,8 +392,24 @@ void solve(){
     speed = SOLVE_SPEED;
     solveCurrMove = solveSequence.get(counter);
     solveCurrMove.start();
+  }else if(dim==5){
+    GetRequest get = new GetRequest("http://localhost:4010?scramble="+moves);
+    get.send();
+    println("Reponse Content: " + get.getContent());
+    String solveMoves = get.getContent();
+
+    String[] tmp = solveMoves.trim().split("\\s+");
+    println(Arrays.toString(tmp));
+
+    solveSequence = new ArrayList<Move>();
+    translateMoves(solveMoves, "\\s+", solveSequence, false);
+
+    counter = 0;
+    speed = SOLVE_SPEED;
+    solveCurrMove = solveSequence.get(counter);
+    solveCurrMove.start();
   }else{
-    // for dim 5 ... 11
+    // for dim 6 ... 11
     GetRequest get = new GetRequest(String.format("http://localhost:2000?dim=%s&scramble=%s", dim, moves));
     get.send();
     println("Reponse Content: " + get.getContent());

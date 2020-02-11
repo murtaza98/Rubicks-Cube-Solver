@@ -15,7 +15,7 @@ cd ../
 cd ./4x4_Solver
 javac JavaHTTPServer.java
 if [ $? -eq 0 ]; then
-    echo "Java Server -> Installation success"
+    echo "Java 4x4 Server -> Installation success"
 else
     echo "Error while compiling java files for 4x4 server"
 fi
@@ -23,3 +23,11 @@ cd ../
 
 
 # install for nxn cube
+cd ./5x5_Solver
+javac JavaHTTPServer.java
+if [ $? -eq 0 ]; then
+    echo "Java 5x5 Server -> Installation success"
+else
+    echo "Error while compiling java files for 5x5 server"
+fi
+cd ../

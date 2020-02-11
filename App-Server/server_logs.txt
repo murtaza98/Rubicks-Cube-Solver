@@ -1,0 +1,115 @@
+---------------------------------------------------------------------------------
+Tue Feb 11 23:51:44 IST 2020
+---------------------------------------------------------------------------------
+Wed Feb 12 00:00:17 IST 2020
+Node server PID --> 15741
+Java server PID --> 15743
+Server started.
+Listening for connections on port : 4000 ...
+Listening on port 3000
+Connecton opened. (Wed Feb 12 00:01:00 IST 2020)
+GET /?scramble=Fw_Dw'_U'_Dw_Rw_Lw'_R'_F'_D_F'_U'_Fw_Lw'_Dw'_D_Bw_Uw'_Bw_F_Lw_U'_L'_F_Rw_Rw'_Dw'_B_Rw_Dw'_Bw'_R'_Lw'_Fw_B_U'_B'_L_U_U_R_U'_Lw_Dw'_U_U'_L_L_F'_Uw'_Fw HTTP/1.1
+Fw Dw' U' Dw Rw Lw' R' F' D F' U' Fw Lw' Dw' D Bw Uw' Bw F Lw U' L' F Rw Rw' Dw' B Rw Dw' Bw' R' Lw' Fw B U' B' L U U R U' Lw Dw' U U' L L F' Uw' Fw
+Initialize Center1 Solver...
+Create Phase1 Center Move Table...
+Initialize Center2 Solver...
+Initialize Center3 Solver...
+Initialize Edge3 Solver...
+1	4
+2	16
+3	55
+4	324
+5	1922
+6	12275
+7	77640
+8	485359
+9	2778197
+OK
+R   Rw2 Fw2 L'  Fw  L   Uw' B   F'  Fw' D'  B'  Fw' L2  B2  D'  Fw2 D'  Uw2 R2  Fw2 D   R'  U'  Fw2 Rw2 F2  U'  B2  U   F2  R2  F2  B2  D'  F2  L'  B2  D   F   B'  L2  U'  F'  U'  L2  
+Connection closed.
+
+{ move:
+   'U_U_B\'_U\'_F_B_F\'_F_U_B_F_U\'_B\'_R\'_D\'_R\'_R_D_L\'_U_D\'_B\'_F\'_L\'_R\'_R\'_U_R_U\'_U_R\'_U_B_B_B_R_L_B_R\'_F\'_R_B\'_D\'_F\'_D_B\'_D\'_R_L\'_B' }
+U U B' U' F B F' F U B F U' B' R' D' R' R D L' U D' B' F' L' R' R' U R U' U R' U B B B R L B R' F' R B' D' F' D B' D' R L' B
+{ move:
+   'U\'_U\'_D\'_D_U\'_U\'_B_D\'_L\'_L_D\'_B\'_F_F\'_B_U_D_B_U\'_L\'_R\'_D_R\'_R_F_B_R_F\'_B\'_U_L_D_F_B\'_D\'_R_R\'_U\'_B\'_B_U_R_L\'_U\'_B_F\'_F_L\'_F\'_F\'' }
+U' U' D' D U' U' B D' L' L D' B' F F' B U D B U' L' R' D R' R F B R F' B' U L D F B' D' R R' U' B' B U R L' U' B F' F L' F' F'
+{ move:
+   'B_U\'_L\'_B\'_F\'_R_L\'_B\'_L_F_B_R\'_F_B\'_R\'_R_F_L\'_F_B\'_D\'_D\'_D\'_L_D_R\'_D\'_B\'_D\'_F\'_D\'_R_U_R_L_D_B_U_U\'_L_D\'_L\'_B_F\'_F\'_U_F\'_R\'_U_U\'' }
+B U' L' B' F' R L' B' L F B R' F B' R' R F L' F B' D' D' D' L D R' D' B' D' F' D' R U R L D B U U' L D' L' B F' F' U F' R' U U'
+Connecton opened. (Wed Feb 12 00:10:35 IST 2020)
+GET /?scramble=D_L'_Bw_L_B'_L'_Uw_U_Fw_Rw'_Uw_R_Lw_U_Uw_F_Lw_Fw'_Fw'_B_Dw_U_Fw'_Uw_Fw'_Dw'_R_Uw'_Bw_Lw_Uw_U_Rw'_Dw_D_D_F_Fw_Fw'_Fw'_U'_F_Bw_B'_Uw'_Dw'_F'_Dw'_Uw'_U' HTTP/1.1
+D L' Bw L B' L' Uw U Fw Rw' Uw R Lw U Uw F Lw Fw' Fw' B Dw U Fw' Uw Fw' Dw' R Uw' Bw Lw Uw U Rw' Dw D D F Fw Fw' Fw' U' F Bw B' Uw' Dw' F' Dw' Uw' U'
+B2  Fw2 D'  Fw2 Rw  F'  Uw  B'  R'  D2  F   B'  Rw  L2  D   Uw2 F   D   L2  U2  B'  Fw2 U'  Uw2 B'  Rw2 U2  B2  R2  B2  R'  D2  U2  R   U2  R'  F'  L2  U'  L   B   R   B2  U'  R   U'  
+Connection closed.
+
+---------------------------------------------------------------------------------
+Wed Feb 12 00:23:28 IST 2020
+Node server PID --> 17213
+Java 4x4 server PID --> 17214
+Java 5x5 server PID --> 17215
+Server started.
+Listening for connections on port : 4010 ...
+Server Connection error : Address already in use (Bind failed)
+Listening on port 3000
+{ move:
+   'B_U_D_U_F_F_F_F\'_B\'_D_L\'_B_L\'_U\'_F_U\'_D\'_B_U\'_R\'_B\'_F\'_U_U_R_D_L\'_R_B_U_F\'_F_R_D\'_L\'_F\'_U_U_D_R\'_F\'_R\'_R\'_U\'_L\'_U_B\'_B_B_F' }
+B U D U F F F F' B' D L' B L' U' F U' D' B U' R' B' F' U U R D L' R B U F' F R D' L' F' U U D R' F' R' R' U' L' U B' B B F
+Connecton opened. (Wed Feb 12 00:25:10 IST 2020)
+GET /?scramble=R_Fw_U_Lw_Fw'_Rw_D_D'_Bw_L_Fw_Rw'_F'_Dw_B'_U'_D_F'_Uw_U_B_Fw'_U'_F'_F'_B_U_Fw'_D_Fw'_Dw'_Bw_D'_Fw_Bw'_R_D_U'_L_Lw_F_Dw'_U'_Uw_Bw'_Uw_Uw_F_U_U' HTTP/1.1
+R Fw U Lw Fw' Rw D D' Bw L Fw Rw' F' Dw B' U' D F' Uw U B Fw' U' F' F' B U Fw' D Fw' Dw' Bw D' Fw Bw' R D U' L Lw F Dw' U' Uw Bw' Uw Uw F U U'
+U2  Fw  D'  Rw' U2  Uw' F   U   L'  B   Fw2 Uw' L   R'  D2  R   Uw2 B'  Uw2 R2  B   L'  R2  Fw2 Uw2 U'  R'  D2  L2  U'  D'  R2  F'  D'  L   D2  F2  U2  L   B2  L2  R   B2  
+Connection closed.
+
+Connecton opened. (Wed Feb 12 00:25:44 IST 2020)
+GET /?scramble=F_r'_F_d'_B2_d_R2_f_d2_f_d'_B'_l'_U2_r_b2_B'_r2_D2_d_B_D'_f'_r_f_F2_D'_B'_D_B'_b'_B_d'_D'_l2_l'_l2_b'_F_F'_d_F2_u_U2_R2_f2_R_U2_D_L2 HTTP/1.1
+LFURDLBLULDUUDURDLFURBURLUFFDRFLULUUBRFLBBLFBBDLRLUDLUFFURBLDLFUBBRDFDRRBBRFFDLDULFDFDFDBFDFRDFLBBUBBDLDBUBBDUFRLBRURDURDFFLUFDRLULLFUBBDBURLRRRBDRRRF
+           [35m L[0m[32m F[0m[37m U[0m[31m R[0m[33m D[0m
+           [35m L[0m[34m B[0m[35m L[0m[37m U[0m[35m L[0m
+           [33m D[0m[37m U[0m[37m U[0m[33m D[0m[37m U[0m
+           [31m R[0m[33m D[0m[35m L[0m[32m F[0m[37m U[0m
+           [31m R[0m[34m B[0m[37m U[0m[31m R[0m[35m L[0m
+[34m B[0m[33m D[0m[35m L[0m[33m D[0m[34m B[0m [37m U[0m[33m D[0m[35m L[0m[37m U[0m[32m F[0m [37m U[0m[32m F[0m[32m F[0m[33m D[0m[31m R[0m [32m F[0m[33m D[0m[31m R[0m[35m L[0m[37m U[0m
+[37m U[0m[34m B[0m[34m B[0m[33m D[0m[37m U[0m [32m F[0m[37m U[0m[31m R[0m[34m B[0m[35m L[0m [32m F[0m[35m L[0m[37m U[0m[35m L[0m[37m U[0m [35m L[0m[35m L[0m[32m F[0m[37m U[0m[34m B[0m
+[32m F[0m[31m R[0m[35m L[0m[34m B[0m[31m R[0m [33m D[0m[35m L[0m[32m F[0m[37m U[0m[34m B[0m [37m U[0m[34m B[0m[31m R[0m[32m F[0m[35m L[0m [34m B[0m[33m D[0m[34m B[0m[37m U[0m[31m R[0m
+[37m U[0m[31m R[0m[33m D[0m[37m U[0m[31m R[0m [34m B[0m[31m R[0m[33m D[0m[32m F[0m[33m D[0m [34m B[0m[34m B[0m[35m L[0m[32m F[0m[34m B[0m [35m L[0m[31m R[0m[31m R[0m[31m R[0m[34m B[0m
+[33m D[0m[32m F[0m[32m F[0m[35m L[0m[37m U[0m [31m R[0m[31m R[0m[34m B[0m[34m B[0m[31m R[0m [34m B[0m[33m D[0m[35m L[0m[31m R[0m[35m L[0m [33m D[0m[31m R[0m[31m R[0m[31m R[0m[32m F[0m
+           [32m F[0m[32m F[0m[33m D[0m[35m L[0m[33m D[0m
+           [37m U[0m[35m L[0m[32m F[0m[33m D[0m[32m F[0m
+           [33m D[0m[32m F[0m[33m D[0m[34m B[0m[32m F[0m
+           [33m D[0m[32m F[0m[31m R[0m[33m D[0m[32m F[0m
+           [35m L[0m[34m B[0m[34m B[0m[37m U[0m[34m B[0m[0m
+
+Phase1 Finished in 1286 ms
+Phase2 Finished in 320 ms
+Phase3 Finished in 248 ms
+Phase4 Finished in 993 ms
+Phase5 Finished in 14 ms
+F2 U  l  F2 r  d2 l  d  l  b  u' //(11f,cum=11f)
+f  D  f2 r2 d2 f  r2 D  b  //(9f,cum=20f)
+U' L' R2 d2 r2 F' //(6f,cum=26f)
+f2 D' f2 U  f2 l2 L2 F2 l2 d2 l2 b2 U  r2 //(14f,cum=40f)
+U2 L2 u2 d2 b2 R  u2 F2 R' d2 b2 F2 d2 //(13f,cum=53f)
+//conjIdx=34
+           [37m U[0m[31m R[0m[31m R[0m[31m R[0m[37m U[0m
+           [33m D[0m[37m U[0m[37m U[0m[37m U[0m[32m F[0m
+           [33m D[0m[37m U[0m[37m U[0m[37m U[0m[32m F[0m
+           [33m D[0m[37m U[0m[37m U[0m[37m U[0m[32m F[0m
+           [37m U[0m[31m R[0m[31m R[0m[31m R[0m[37m U[0m
+[35m L[0m[34m B[0m[34m B[0m[34m B[0m[35m L[0m [32m F[0m[32m F[0m[32m F[0m[32m F[0m[32m F[0m [31m R[0m[35m L[0m[35m L[0m[35m L[0m[31m R[0m [34m B[0m[33m D[0m[33m D[0m[33m D[0m[34m B[0m
+[37m U[0m[35m L[0m[35m L[0m[35m L[0m[35m L[0m [33m D[0m[32m F[0m[32m F[0m[32m F[0m[31m R[0m [34m B[0m[31m R[0m[31m R[0m[31m R[0m[37m U[0m [34m B[0m[34m B[0m[34m B[0m[34m B[0m[35m L[0m
+[37m U[0m[35m L[0m[35m L[0m[35m L[0m[35m L[0m [33m D[0m[32m F[0m[32m F[0m[32m F[0m[31m R[0m [34m B[0m[31m R[0m[31m R[0m[31m R[0m[37m U[0m [34m B[0m[34m B[0m[34m B[0m[34m B[0m[35m L[0m
+[37m U[0m[35m L[0m[35m L[0m[35m L[0m[35m L[0m [33m D[0m[32m F[0m[32m F[0m[32m F[0m[31m R[0m [34m B[0m[31m R[0m[31m R[0m[31m R[0m[37m U[0m [34m B[0m[34m B[0m[34m B[0m[34m B[0m[35m L[0m
+[35m L[0m[37m U[0m[37m U[0m[37m U[0m[35m L[0m [32m F[0m[31m R[0m[31m R[0m[31m R[0m[32m F[0m [31m R[0m[35m L[0m[35m L[0m[35m L[0m[31m R[0m [34m B[0m[32m F[0m[32m F[0m[32m F[0m[34m B[0m
+           [33m D[0m[37m U[0m[37m U[0m[37m U[0m[33m D[0m
+           [32m F[0m[33m D[0m[33m D[0m[33m D[0m[34m B[0m
+           [32m F[0m[33m D[0m[33m D[0m[33m D[0m[34m B[0m
+           [32m F[0m[33m D[0m[33m D[0m[33m D[0m[34m B[0m
+           [33m D[0m[33m D[0m[33m D[0m[33m D[0m[33m D[0m[0m
+
+Reduction: 53
+F2 U  l  F2 r  d2 l  d  l  b  u' f  D  f2 r2 d2 f  r2 D  b  U' L' R2 d2 r2 F' f2 D' f2 U  f2 l2 L2 F2 l2 d2 l2 b2 U  r2 U2 L2 u2 d2 b2 R  u2 F2 R' d2 b2 F2 d2  --- UBBRUDLURBRLURDRLFDLDBFBLUBUFUDDFDRLRFBRLDRFFULFLBUDBF
+F2 D  B' L2 D  B2 R2 U  F2 D2 F  D' L' D' B' U2 
+F2 U  l  F2 r  d2 l  d  l  b  u' f  D  f2 r2 d2 f  r2 D  b  U' L' R2 d2 r2 F' f2 D' f2 U  f2 l2 L2 F2 l2 d2 l2 b2 U  r2 U2 L2 u2 d2 b2 R  u2 F2 R' d2 b2 F2 d2  F2 D  B' L2 D  B2 R2 U  F2 D2 F  D' L' D' B' U2 
+Connection closed.
+
