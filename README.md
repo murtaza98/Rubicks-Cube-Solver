@@ -18,21 +18,21 @@ A cool Rubicks cube Simulation. SCRAMBLE -> SOLVE -> REPEAT
 
 ### Installation
 
-1. clone with all submodules
+1. clone with all submodules </br>
 `git clone https://github.com/murtaza98/Rubicks-Cube-Solver.git`
 
 2. Download Processing from [here](https://processing.org/download/)
 
-3. For Server Installation,
-  `cd Rubicks-Cube-Solver/App-Server`
-  `chmod a+x install.sh`
-  `chmod a+x run.sh`
+3. For Server Installation, </br>
+  `cd Rubicks-Cube-Solver/App-Server` </br>
+  `chmod a+x install.sh` </br>
+  `chmod a+x run.sh` </br>
   `./install.sh`
 
 
 ### Usage
-1. First start the servers
-`cd Rubicks-Cube-Solver/App-Server`
+1. First start the servers </br>
+`cd Rubicks-Cube-Solver/App-Server` </br>
 `./run.sh`
 
 2. Next start the GUI using Processing, so first start Processing and then click File -> Open, there goto App-Client directory and select Rubicks_Cube_Main.pde in Rubicks_Cube_Main folder
