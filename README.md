@@ -43,8 +43,11 @@ A cool Rubicks cube Simulation. SCRAMBLE -> SOLVE -> REPEAT
 
 1. Murtaza Patrawala -- [@murtaza98](https://github.com/murtaza98)
 
-
 ### References
+Following are a list of projects that I integrated over here
+1. Daniel Shiffman aka The Coding Train his Rubick's Cube Coding Challenge [link](https://youtu.be/9PGfL4t-uqE)
+2. [cubejs](https://github.com/ldez/cubejs) for implementation of Herbert Kociemba's two-phase algorithm for solving 3x3 cube
+3. [cs0x7f](https://github.com/cs0x7f) for implementation of a modified Kociemba's algo for solving 4x4 and 5x5 cube.
 
 
 
